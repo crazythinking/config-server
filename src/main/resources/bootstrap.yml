@@ -1,0 +1,20 @@
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri:  http://10.156.41.15:17888/luxue/sccc-config-repo.git
+          basedir:  D:\sccc-config-repo
+            
+#logging:
+#  level:
+#    org.springframework: DEBUG
+          
+#生成证书
+#keytool -genkeypair -alias sstaralisid -keyalg RSA -dname "CN=Web Server,OU=Unit,O=Organization,L=City,S=State,C=US" -keypass sstarpwdpriv -keystroe server.jks -storepass sstarpasswd
+encrypt:
+  key-store:
+    location: classpath:/server.jks
+    password: sstarpasswd #指定密钥库的密码，获取keystore信息所需的密码(-storepass)
+    alias: sstaralisid  #每个keystore都关联这一个独一无二的alias(-alias)
+    secret: sstarpwdpriv  #即私钥的密码(-keypass)

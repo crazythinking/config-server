@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+		<groupId>net.engining.project</groupId>
+		<artifactId>project-parent</artifactId>
+		<version>3.2-SNAPSHOT</version>
+	</parent>
+
+	<groupId>net.engining.cloud</groupId>
+	<artifactId>config-server</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	
+	<properties>
+		<maven.deploy.skip>true</maven.deploy.skip>
+		<!-- 由于依赖了spring bom，其内已经配置了maven-shade-plugin，故只需要配置该参数来指定mainClass -->
+		<start-class>net.engining.cloud.config.Application</start-class>
+	</properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-dependencies</artifactId>
+			<version>Dalston.SR3</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+        </dependencies>
+    </dependencyManagement>
+    
+    <dependencies>
+    	<!-- <dependency>
+		　　<groupId>org.springframework.boot</groupId>
+		　　<artifactId>spring-boot-starter-security</artifactId>
+		</dependency> -->
+
+    	<dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-server</artifactId>
+        </dependency>
+        
+    	<dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
+        </dependency>
+
+        <!--暴露各种指标-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <exclusions>
+            	<exclusion>
+            		<groupId>org.springframework.boot</groupId>
+            		<artifactId>spring-boot-starter-logging</artifactId>
+            	</exclusion>
+            </exclusions>
+        </dependency>
+
+		<!-- spring boot log4j -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+			<optional>true</optional>
+		</dependency>
+		
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin><!-- 使boot编译为可执行jar，可通过java -jar xxx.jar 执行； -->
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<executable>true</executable><!-- 可直接执行jar -->
+				</configuration>
+			</plugin>
+        </plugins>
+    </build>
+
+</project>
