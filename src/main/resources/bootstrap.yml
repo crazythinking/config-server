@@ -1,16 +1,23 @@
 spring:
+  application:
+    name: config-server
   cloud:
     config:
       server:
         git:
-          uri:  http://10.156.41.15:17888/luxue/sccc-config-repo.git
-          basedir:  D:\sccc-config-repo
+          uri:  https://github.com/crazythinking/config-repo.git
+          basedir:  D:\config-repo
+#          用于指定扫描配置文件所在相对路径，默认git根路径（通过路径的指定，配置文件可安版本或项目等分目录存放）；可以指定多个；
+#          search-paths:
+#          - subdir
+#         指定扫描的分支
+          default-label: master
+#          repos:
+#            dev.pattern: dev/*
             
-#logging:
-#  level:
-#    org.springframework: DEBUG
+            
           
-#生成证书
+#生成证书，用于非对称秘钥方式保护配置敏感信息
 #keytool -genkeypair -alias sstaralisid -keyalg RSA -dname "CN=Web Server,OU=Unit,O=Organization,L=City,S=State,C=US" -keypass sstarpwdpriv -keystroe server.jks -storepass sstarpasswd
 encrypt:
   key-store:
@@ -18,3 +25,15 @@ encrypt:
     password: sstarpasswd #指定密钥库的密码，获取keystore信息所需的密码(-storepass)
     alias: sstaralisid  #每个keystore都关联这一个独一无二的alias(-alias)
     secret: sstarpwdpriv  #即私钥的密码(-keypass)
+    
+eureka:
+  instance:
+    metadata-map: #向Eureka服务提交元数据，这里是为了监控服务可以获取访问权限
+      user.name: ${security.user.name}
+      user.password: ${security.user.password}
+      management.port:  ${management.port}
+      management.context-path: ${management.context-path}
+  client: #当eureka为高可用服务之后，服务提供者、服务消费者的注册也不能再是一个节点上，要同时注册到所有的注册中心之上
+    service-url:
+      defaultZone:  http://eureka1:7070/eureka/
+#      ,http://eureka2:7071/eureka/,http://eureka3:7072/eureka/

@@ -4,7 +4,7 @@
     <properties>
         <!-- 日志路径 -->
         <!-- 可设置jvm参数: ${sys:log.path.prefix}-->
-        <property name="LOG_HOME">d:/logs/</property>
+        <property name="LOG_HOME">./logs/</property>
         <!-- 日志输入级别 -->
         <property name="level">INFO</property>
     </properties>
@@ -13,7 +13,7 @@
     	<!-- 标准输出 -->
         <Console name="Console" target="SYSTEM_OUT">
             <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout charset="UTF-8" pattern="%highlight{[%-5level] [%d{DEFAULT}] [%thread] [%MDC] ([%c:%line:%method]) %msg%n}{FATAL=Bright red, ERROR=Red, WARN=Bright yellow, INFO=Bright green, DEBUG=green, TRACE=cyan}"/>
+            <PatternLayout charset="UTF-8" pattern="%highlight{[%-5level] [%d{DEFAULT}] [%thread] [%MDC] ([%c{1.}:%line:%method]) %msg%n}{FATAL=Bright red, ERROR=Red, WARN=Bright yellow, INFO=Bright green, DEBUG=green, TRACE=cyan}"/>
         </Console>
         
         <!--所有日志-->
@@ -72,7 +72,7 @@
 
     <Loggers>
         <Logger name="org.springframework" level="INFO" additivity="true"/>
-        <!-- <Logger name="org.springframework.boot" level="TRACE" additivity="true"/> -->
+        <Logger name="org.springframework.cloud.config" level="DEBUG" additivity="true"/>
         
         <!-- <Logger name="org.hibernate" level="INFO" additivity="true"/> -->
         <!-- <Logger name="org.hibernate.type" level="TRACE" additivity="true"/> -->
